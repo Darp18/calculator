@@ -13,6 +13,7 @@
     --border:rgba(255,255,255,0.6);
     --text:#1f2937;
     --muted:#6b7280;
+    --growth:#10b981; /* emerald‑500 */
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   body{
@@ -93,6 +94,14 @@
     border-radius:12px;
   }
   .result small{display:block;font-size:.85rem;color:var(--muted);margin-top:6px;font-weight:500;}
+  .growth{
+    margin-top:12px;
+    text-align:center;
+    font-size:1.2rem;
+    font-weight:600;
+    color:var(--growth);
+  }
+  .growth small{display:block;font-size:.8rem;color:var(--muted);margin-top:4px;font-weight:500;}
   .disclaimer{font-size:0.8rem;color:var(--muted);max-width:460px;text-align:center;margin-top:24px;line-height:1.4;}
 </style>
 </head>
@@ -111,6 +120,7 @@
     <div class="field"><label for="additional1">Additional signals (optional)</label><input type="number" id="additional1" value="0" placeholder="0" min="0" step="1"></div>
     <div class="field"><label for="days1">Number of days to invest</label><input type="number" id="days1" value="0" placeholder="0" min="0" max="30" step="1"></div>
     <div class="result" id="total1">$0.00<small>Projected total</small></div>
+    <div class="growth" id="growth1">$0.00<small>Growth</small></div>
   </div>
 
   <!-- Growth Time Estimator -->
@@ -151,7 +161,9 @@ function updateTotal1(){
   const days=parseInt(document.getElementById('days1').value,10)||0;
   const fixed=getFixed1();
   const total=amount*Math.pow(1.005,fixed*days+additional);
+  const growth=total-amount;
   document.getElementById('total1').firstChild.textContent=total.toLocaleString(undefined,{style:'currency',currency:'USD',minimumFractionDigits:2,maximumFractionDigits:2});
+  document.getElementById('growth1').firstChild.textContent=growth.toLocaleString(undefined,{style:'currency',currency:'USD',minimumFractionDigits:2,maximumFractionDigits:2});
   ['amount1','additional1','days1'].forEach(id=>setEditedState(document.getElementById(id),defaults1[id]));
 }
 updateTotal1();
